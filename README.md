@@ -34,7 +34,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 Rob Wiederstein - [@https://twitter.com/RobWiederstein](https://twitter.com/your_username) - rob@robwiederstein.org
 
-Project Link: <https://github.com/RobWiederstein/hip_hop_artists>
+Project Link: <https://github.com/RobWiederstein/ky_lbw>
 
 ## Acknowledgements
 
