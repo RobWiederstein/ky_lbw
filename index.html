@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+      <title>Kentucky Low Birth Weight</title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <!--stylesheets load first-->
+      <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.css" />
+      <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/MarkerCluster.css" />
+      <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/MarkerCluster.Default.css" />
+      <!--scripts load next-->
+      <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js'></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-ajax/2.1.0/leaflet.ajax.min.js"></script>
+      <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/leaflet.markercluster.js'></script>
+      <script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-providers/1.9.1/leaflet-providers.min.js"></script>
+      <style>
+            body {
+                  padding: 0;
+                  margin: 0;
+            }
+
+            html,
+            body,
+            #map {
+                  height: 100%;
+                  width: 100%;
+            }
+      </style>
+</head>
+
+<body>
+      <h1>Kentucky Low Birth Weight Rate by County</h1>
+      <!--here's the map container-->
+      <div id="map"></div>
+
+      <script>
+            //set map view start
+            var map = L.map('map', {
+                  center: [37.7031, -85.8649],
+                  zoom: 8,
+                  minZoom: 4,
+                  maxZoom: 18
+            });
+            //end
+            //add stadia map tiles
+            L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png', {
+                  maxZoom: 20,
+                  attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors',
+            }).addTo(map);
+
+            //add file location--home directory
+            var url = "data_tidy/kids_count_ky_lbw_by_county.geojson";
+            //assign colors to septiles
+            function getColor(d) {
+                  return      d == 7 ?      '#7c1d6f' :
+                              d == 6 ?      '#b9257a' :
+                              d == 5 ?      '#dc3977' :
+                              d == 4 ?      '#e34f6f' :
+                              d == 3 ?      '#f0746e' :
+                              d == 2 ?      '#faa476' :
+                              d == 1 ?      '#fcde9c' :
+                                           '#FFEDA0';
+            }
+            //get colors for style
+            function style(feature) {
+                  return {
+                        fillColor: getColor(feature.properties.septile),
+                        weight: 2,
+                        opacity: 1,
+                        color: 'white',
+                        dashArray: '3',
+                        fillOpacity: 0.6
+                  };
+            }
+            //give data for popup
+            function forEachFeature(feature, layer) {
+                  var popupContent =
+                        "<b>County:  </b> " + feature.properties.location +
+                        "</br><b>LBW%:  </b>" + feature.properties.lbw_pct +
+                        "</br><b>Septile:  </b>" + feature.properties.septile;
+
+                  if (feature.properties && feature.properties.popupContent) {
+                        popupContent += feature.properties.popupContent;
+                  }
+                  layer.bindPopup(popupContent);
+            };
+            //plugin functions for geojson layer
+            var lbw = L.geoJSON(null, {
+                  onEachFeature: forEachFeature,
+                  style: style
+            });
+            // Get GeoJSON data from file and create features.
+            $.getJSON(url, function(data) {
+                  lbw.addData(data);
+            });
+            lbw.addTo(map);
+
+      </script>
+
+</body>
+
+</html>
