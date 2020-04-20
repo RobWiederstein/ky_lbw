@@ -1,6 +1,12 @@
+![Kentucky LBW Choropleth Map](img/ky_choropleth.png)
+
 # Low Birth Weight
 
 The data was furnished courtesy of the Annie E. Casey Kids County initiative. Low birth weight is an excellent indicator of overall maternal and infant health. My home county--Henderson County, Kentucky--has struggled in this area for years. This project was undertaken to learn about leaflet choropleth maps and had the benefit of a working model on the "Kids Count" website. (The website allows for a county choropleth map to be drawn using one of dozens of indicators.)
+
+## Workflow
+
+![Project Workflow](img/workflow.png)
 
 # Join of Dataframe with Shape file
 
@@ -19,6 +25,16 @@ GIS exchange had a question that directly addressed the issue. The author noted 
 #county line .shp file
 cl.01@data$pid <- sapply(slot(cl.01, "polygons"), function(x) slot(x, "ID"))
 ```
+
+## License
+
+Distributed under the MIT License. See `LICENSE` for more information.
+
+## Contact
+
+Rob Wiederstein - [@https://twitter.com/RobWiederstein](https://twitter.com/your_username) - rob@robwiederstein.org
+
+Project Link: <https://github.com/RobWiederstein/hip_hop_artists>
 
 ## Acknowledgements
 
